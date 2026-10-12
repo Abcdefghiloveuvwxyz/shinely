@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Monthsary, My Love</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-rose: #e63946;
+    --soft-gold: #d4af37;
+    --deep-burgundy: #1a080e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #0d0307;
+    color: #f8edeb;
+    overflow-x: hidden;
+    min-height: 100vh;
+    background-image: radial-gradient(circle at 50% 0%, var(--deep-burgundy), #0d0307 70%);
+  }
+  h1, h2 { font-family: 'Playfair Display', serif; color: var(--soft-gold); }
+  .script { font-family: 'Great Vibes', cursive; color: var(--primary-rose); }
+  section { min-height: 100vh; padding: 70px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; z-index: 2; }
+  .hidden { display: none !important; }
+  button {
+    font-family: 'Montserrat', sans-serif; cursor: pointer; border: none;
+    padding: 14px 30px; border-radius: 50px; font-size: 1rem; letter-spacing: 1px;
+    background: linear-gradient(135deg, var(--primary-rose), #9d1b2a); color: #fff;
+    box-shadow: 0 6px 24px rgba(230,57,70,.4); transition: transform .2s, box-shadow .2s;
+  }
+  button:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 10px 30px rgba(230,57,70,.6); }
+  .gold-btn { background: linear-gradient(135deg, var(--soft-gold), #a8841c); color: #1a080e; box-shadow: 0 6px 24px rgba(212,175,55,.35); }
+
+  /* floating hearts background */
+  #hearts { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+  .heart { position: absolute; bottom: -40px; animation: floatUp linear forwards; opacity: .8; }
+  @keyframes floatUp { to { transform: translateY(-110vh) rotate(40deg); opacity: 0; } }
+
+  /* music button */
+  #musicBtn { position: fixed; top: 16px; right: 16px; z-index: 50; padding: 10px 16px; font-size: .85rem; }
+
+  /* ENVELOPE intro */
+  #intro { background: transparent; }
+  .envelope { font-size: 7rem; animation: pulse 1.6s infinite; cursor: pointer; filter: drop-shadow(0 0 25px var(--primary-rose)); }
+  @keyframes pulse { 50% { transform: scale(1.12); } }
+  #intro p { margin-top: 18px; color: var(--soft-gold); letter-spacing: 3px; font-size: .85rem; text-transform: uppercase; }
+
+  /* HERO */
+  .hero h1 { font-size: clamp(2.2rem, 8vw, 4.5rem); margin-bottom: 10px; }
+  .hero .script { font-size: clamp(2rem, 7vw, 3.5rem); }
+  .counter { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
+  .counter div { background: rgba(255,255,255,.05); border: 1px solid rgba(212,175,55,.4); border-radius: 14px; padding: 14px 18px; min-width: 78px; }
+  .counter b { display: block; font-size: 1.8rem; color: var(--soft-gold); font-family: 'Playfair Display', serif; }
+  .counter span { font-size: .7rem; letter-spacing: 2px; text-transform: uppercase; opacity: .8; }
+  .scroll-hint { margin-top: 40px; opacity: .6; animation: bounce 2s infinite; }
+  @keyframes bounce { 50% { transform: translateY(10px); } }
+
+  /* LETTER */
+  .letter { max-width: 640px; background: rgba(255,255,255,.04); border: 1px solid rgba(212,175,55,.3); border-radius: 20px; padding: 36px 28px; backdrop-filter: blur(6px); }
+  #typed { line-height: 1.9; font-weight: 300; min-height: 220px; text-align: left; white-space: pre-wrap; }
+
+  /* FLIP CARDS */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 900px; width: 100%; margin-top: 30px; }
+  .card { height: 200px; perspective: 900px; cursor: pointer; }
+  .card-inner { position: relative; width: 100%; height: 100%; transition: transform .8s; transform-style: preserve-3d; }
+  .card.flipped .card-inner { transform: rotateY(180deg); }
+  .face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 18px; display: flex; align-items: center; justify-content: center; padding: 18px; font-size: .95rem; line-height: 1.6; }
+  .front { background: linear-gradient(135deg, var(--primary-rose), #6d0f1c); font-size: 2.6rem; border: 1px solid var(--soft-gold); }
+  .back { background: var(--deep-burgundy); border: 1px solid var(--soft-gold); transform: rotateY(180deg); color: #f8edeb; }
+
+  /* GAME */
+  #gameArea { position: relative; width: min(92vw, 520px); height: 320px; border: 2px dashed rgba(212,175,55,.5); border-radius: 20px; margin-top: 20px; overflow: hidden; background: rgba(255,255,255,.03); }
+  .catch { position: absolute; font-size: 2.2rem; cursor: pointer; user-select: none; animation: drift 3s ease-in-out infinite alternate; }
+  @keyframes drift { to { transform: translateY(18px) rotate(12deg); } }
+  #score { color: var(--soft-gold); font-size: 1.2rem; margin-top: 12px; }
+
+  /* REASONS */
+  #reasonBox { margin-top: 26px; min-height: 90px; max-width: 520px; font-size: 1.2rem; line-height: 1.7; font-family: 'Playfair Display', serif; font-style: italic; }
+
+  /* FINAL */
+  .big-q { font-size: clamp(1.8rem, 6vw, 3.2rem); margin-bottom: 30px; }
+  .btn-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; min-height: 80px; position: relative; width: 100%; }
+  #noBtn { background: #444; box-shadow: none; position: relative; }
+
+  canvas#fx { position: fixed; inset: 0; pointer-events: none; z-index: 60; }
+  .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--soft-gold); color: #1a080e; padding: 12px 24px; border-radius: 40px; z-index: 70; font-weight: 600; opacity: 0; transition: opacity .4s; pointer-events: none; text-align: center; }
+  .toast.show { opacity: 1; }
+  .secret { cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div id="hearts"></div>
+<canvas id="fx"></canvas>
+<div class="toast" id="toast"></div>
+<button id="musicBtn" class="gold-btn hidden">🎵 Music On</button>
+
+<!-- Optional: put your own song file here (e.g. "song.mp3") -->
+<audio id="song" loop></audio>
+
+<!-- 1. INTRO -->
+<section id="intro">
+  <div class="envelope" id="openBtn">💌</div>
+  <p>Tap to open your surprise</p>
+</section>
+
+<main id="main" class="hidden">
+
+  <!-- 2. HERO -->
+  <section class="hero">
+    <p style="letter-spacing:4px;color:var(--soft-gold);font-size:.8rem;">HAPPY 6th MONTHSARY</p>
+    <h1 id="titleName">My Love ❤</h1>
+    <div class="script">another month of us</div>
+    <div class="counter" id="counter"></div>
+    <div class="scroll-hint">scroll down ↓<br><small class="secret" id="secret1">(psst… tap the heart 💗)</small></div>
+  </section>
+
+  <!-- 3. LETTER -->
+  <section>
+    <h2 style="margin-bottom:20px;">A Little Letter For You</h2>
+    <div class="letter">
+      <div id="typed"></div>
+    </div>
+  </section>
+
+  <!-- 4. FLIP CARDS -->
+  <section>
+    <h2>Tap Each Card 🎁</h2>
+    <p style="opacity:.7;margin-top:8px;">Every card hides a surprise</p>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <!-- 5. GAME -->
+  <section>
+    <h2>Catch My Heart 💘</h2>
+    <p style="opacity:.7;margin-top:8px;">Catch 10 hearts to unlock a special prize</p>
+    <div id="gameArea"></div>
+    <div id="score">Hearts: 0 / 10</div>
+  </section>
+
+  <!-- 6. REASONS -->
+  <section>
+    <h2>Reasons I Love You</h2>
+    <div id="reasonBox" class="script" style="font-size:1.8rem;">Tap the button 👇</div>
+    <button id="reasonBtn" style="margin-top:20px;">Show me a reason</button>
+  </section>
+
+  <!-- 7. FINAL QUESTION -->
+  <section>
+    <h1 class="big-q">Will you stay with me for another month… and forever? 💍</h1>
+    <div class="btn-row">
+      <button id="yesBtn">YES! 💖</button>
+      <button id="noBtn">No 😢</button>
+    </div>
+    <p id="finalMsg" class="script" style="font-size:2.4rem;margin-top:30px;"></p>
+  </section>
+
+</main>
+
+<script>
+/* ===================== EDIT THESE ===================== */
+const CONFIG = {
+  herName: "My Love",                         // her / his name
+  startDate: "2026-05-13T00:00:00",           // the date you became official
+  songURL: "",                                // optional: "song.mp3" or any direct mp3 link. Leave empty to use the built-in music-box melody
+  letter:
+`Happy 6th Monthsary lovee lovee koo, 
+
+Another month has passed, and somehow I fall for you even more.
+
+Thank you so much for always being by my side and for always choosing us, no matter what happens. Through all the good days and the tough days, we always find a way to make everything okay. You never give up on us, and that means everything to me.
+
+I may not be perfect, but I promise to keep choosing you today, tomorrow, and every month after.
+
+Happy monthsary. Iloveyouuuuu sooooo muchhhhh shineely koo 😚 
+
+— Demar`,
+  cards: [
+    ["🤗", "Coupon: \"The First Hug\" A long, 30-second hug the very first second we finally meet in person."],
+    ["📸", "Coupon: \"Our First Picture\" We take our very first real photo together in a cute frame for you to keep."],
+    ["🌙", "Coupon: One late-night call until we fall asleep."],
+    ["🎬", "Coupon: Virtual Movie night marathon, and you pick all the films."],
+    ["💋", "Secret surprise: a sweet kiss waiting for you in person 😘"]
+  ],
+  reasons: [
+    "Your smile fixes my worst days.",
+    "You listen even when I’m just rambling.",
+    "You make me want to be better.",
+    "Your laugh is my favorite sound.",
+    "You feel like home.",
+    "You believe in me when I forget to.",
+    "Because it’s you. It’s always you."
+  ]
+};
+/* ======================================================== */
+
+const $ = id => document.getElementById(id);
+function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2600); }
+
+/* ---------- floating hearts ---------- */
+function spawnHeart() {
+  const h = document.createElement('div');
+  h.className = 'heart';
+  h.textContent = ['❤','💖','💗','💕','✨'][Math.floor(Math.random()*5)];
+  h.style.left = Math.random()*100 + 'vw';
+  h.style.fontSize = (14 + Math.random()*26) + 'px';
+  h.style.animationDuration = (6 + Math.random()*6) + 's';
+  $('hearts').appendChild(h);
+  setTimeout(() => h.remove(), 12000);
+}
+setInterval(spawnHeart, 600);
+
+/* ---------- confetti / fireworks ---------- */
+const cv = $('fx'), ctx = cv.getContext('2d');
+function resize() { cv.width = innerWidth; cv.height = innerHeight; }
+resize(); addEventListener('resize', resize);
+let particles = [];
+function burst(x, y, n = 60) {
+  const colors = ['#e63946','#d4af37','#ff8fa3','#ffffff','#ffd6e0'];
+  for (let i = 0; i < n; i++) {
+    const a = Math.random()*Math.PI*2, s = 2 + Math.random()*6;
+    particles.push({ x, y, vx: Math.cos(a)*s, vy: Math.sin(a)*s, life: 80 + Math.random()*40, c: colors[Math.floor(Math.random()*colors.length)], r: 2 + Math.random()*3 });
+  }
+}
+function confettiRain() {
+  for (let i = 0; i < 120; i++) particles.push({ x: Math.random()*cv.width, y: -20, vx: (Math.random()-.5)*2, vy: 2 + Math.random()*4, life: 200, c: ['#e63946','#d4af37','#ff8fa3','#fff'][i%4], r: 3 + Math.random()*3 });
+}
+(function loop() {
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  particles = particles.filter(p => p.life > 0);
+  particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.vy += .05; p.life--; ctx.globalAlpha = Math.min(1, p.life/40); ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill(); });
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(loop);
+})();
+function fireworks(times = 6) {
+  for (let i = 0; i < times; i++) setTimeout(() => burst(Math.random()*cv.width, Math.random()*cv.height*.6, 80), i*350);
+}
+addEventListener('click', e => burst(e.clientX, e.clientY, 18));
+
+/* ---------- MUSIC ---------- */
+let audioCtx, musicOn = false, melodyTimer, step = 0;
+const song = $('song');
+// “Music box” melody (C major, gentle & romantic)
+const NOTES = { C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00, A4:440.00, B4:493.88, C5:523.25, D5:587.33, E5:659.25, G5:783.99 };
+const MELODY = ['E4','G4','C5','E5','D5','C5','G4','E4','F4','A4','C5','F4','E4','G4','D5','B4',
+                'C5','E5','G5','E5','D5','B4','G4','D5','C5','G4','E4','G4','C5',null,null,null];
+function playNote(freq, t, dur = .9) {
+  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+  o.type = 'sine'; o.frequency.value = freq;
+  g.gain.setValueAtTime(0, t);
+  g.gain.linearRampToValueAtTime(.18, t + .02);
+  g.gain.exponentialRampToValueAtTime(.001, t + dur);
+  o.connect(g).connect(audioCtx.destination);
+  o.start(t); o.stop(t + dur);
+}
+function startSynth() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  audioCtx.resume();
+  melodyTimer = setInterval(() => {
+    const n = MELODY[step % MELODY.length];
+    if (n) {
+      playNote(NOTES[n], audioCtx.currentTime);
+      if (step % 8 === 0) playNote(NOTES[n] / 2, audioCtx.currentTime, 1.6); // soft bass
+    }
+    step++;
+  }, 420);
+}
+function startMusic() {
+  musicOn = true;
+  if (CONFIG.songURL) { song.src = CONFIG.songURL; song.volume = .6; song.play().catch(()=>{}); }
+  else startSynth();
+  $('musicBtn').textContent = '🎵 Music On';
+}
+function stopMusic() {
+  musicOn = false;
+  if (CONFIG.songURL) song.pause(); else clearInterval(melodyTimer);
+  $('musicBtn').textContent = '🔇 Music Off';
+}
+$('musicBtn').onclick = () => musicOn ? stopMusic() : startMusic();
+
+/* ---------- OPEN ---------- */
+$('openBtn').onclick = () => {$('intro').classList.add('hidden');
+  $('main').classList.remove('hidden');$('musicBtn').classList.remove('hidden');
+  startMusic();
+  fireworks(5);
+  confettiRain();
+  $('titleName').textContent = CONFIG.herName + ' ❤';
+  startCounter();
+  observeLetter();
+};
+
+/* ---------- COUNTER ---------- */
+function startCounter() {
+  const start = new Date(CONFIG.startDate).getTime();
+  const el = $('counter');
+  function tick() {
+    let d = Math.max(0, Date.now() - start);
+    const days = Math.floor(d/864e5), h = Math.floor(d/36e5)%24, m = Math.floor(d/6e4)%60, s = Math.floor(d/1e3)%60;
+    el.innerHTML = [[days,'Days'],[h,'Hours'],[m,'Mins'],[s,'Secs']].map(([v,l]) => `<div><b>${v}</b><span>${l}</span></div>`).join('');
+  }
+  tick(); setInterval(tick, 1000);
+}
+
+/* ---------- SECRET HEART ---------- */
+$('secret1').onclick = () => { toast('💗 Secret #1 found: I love you more than yesterday!'); fireworks(3); };
+
+/* ---------- TYPEWRITER LETTER ---------- */
+function observeLetter() {
+  let started = false;
+  new IntersectionObserver((entries, obs) => {
+    if (entries[0].isIntersecting && !started) {
+      started = true; obs.disconnect();
+      let i = 0; const el = $('typed');
+      (function type() {
+        el.textContent = CONFIG.letter.slice(0, ++i);
+        if (i < CONFIG.letter.length) setTimeout(type, 45);
+        else { burst(innerWidth/2, innerHeight/2, 80); }
+      })();
+    }
+  }, { threshold: .5 }).observe($('typed'));
+}
+
+/* ---------- FLIP CARDS ---------- */
+let flippedCount = 0;
+CONFIG.cards.forEach(([icon, text]) => {
+  const c = document.createElement('div');
+  c.className = 'card';
+  c.innerHTML = `<div class="card-inner"><div class="face front">${icon}</div><div class="face back">${text}</div></div>`;
+  c.onclick = () => {
+    if (!c.classList.contains('flipped')) {
+      c.classList.add('flipped'); flippedCount++;
+      const r = c.getBoundingClientRect(); burst(r.left + r.width/2, r.top + r.height/2, 30);
+      if (flippedCount === CONFIG.cards.length) { toast('🎉 You opened every surprise!'); fireworks(5); }
+    }
+  };
+  $('cards').appendChild(c);
+});
+
+/* ---------- CATCH THE HEART GAME ---------- */
+let score = 0;
+function spawnCatch() {
+  if (score >= 10) return;
+  const area = $('gameArea');
+  const h = document.createElement('div');
+  h.className = 'catch';
+  h.textContent = ['💖','💗','💘','💝'][Math.floor(Math.random()*4)];
+  h.style.left = Math.random()*(area.clientWidth - 50) + 'px';
+  h.style.top = Math.random()*(area.clientHeight - 50) + 'px';
+  h.onclick = e => {
+    e.stopPropagation(); h.remove(); score++;
+    $('score').textContent = `Hearts: ${score} / 10`;
+    if (score === 10) {
+      $('score').innerHTML = '🏆 You win! Prize: <b>one free kiss </b> 😘';
+      fireworks(8); confettiRain();
+    }
+  };
+  area.appendChild(h);
+  setTimeout(() => h.remove(), 2200);
+}
+setInterval(spawnCatch, 700);
+
+/* ---------- REASONS ---------- */
+let ri = 0;
+$('reasonBtn').onclick = () => {$('reasonBox').textContent = CONFIG.reasons[ri % CONFIG.reasons.length];
+  ri++; burst(innerWidth/2, innerHeight/2, 25);
+  if (ri === CONFIG.reasons.length) { $('reasonBtn').textContent = 'Want to hear them again? 💕'; }
+};
+
+/* ---------- FINAL QUESTION ---------- */
+const noBtn = $('noBtn');
+const noTexts = ['No 😢', 'Are you sure? 🥺', 'Think again 💔', 'Pretty please? 🥹', 'Nope, not allowed 😤', 'Try the YES button 😏'];
+let ni = 0;
+function dodge() {
+  noBtn.style.position = 'fixed';
+  noBtn.style.left = (10 + Math.random()*(innerWidth - 160)) + 'px';
+  noBtn.style.top = (10 + Math.random()*(innerHeight - 80)) + 'px';
+  noBtn.textContent = noTexts[++ni % noTexts.length];
+  const y = $('yesBtn'); y.style.transform = `scale(${Math.min(1 + ni*.12, 2.2)})`;
+}
+noBtn.addEventListener('mouseenter', dodge);
+noBtn.addEventListener('touchstart', e => { e.preventDefault(); dodge(); });
+noBtn.addEventListener('click', dodge);
+
+$('yesBtn').onclick = () => {$('finalMsg').innerHTML = 'I knew it! Happy Monthsary, my love 💞<br><small style="font-family:Montserrat;font-size:1rem;color:#f8edeb;">Forever starts now ✨</small>';
+  noBtn.classList.add('hidden');
+  fireworks(12); confettiRain();
+  setTimeout(confettiRain, 1500);
+  setInterval(() => { for (let i = 0; i < 4; i++) spawnHeart(); }, 400);
+  toast('💖 Best answer ever!');
+};
+</script>
+</body>
+</html>
